@@ -6,16 +6,11 @@ const server = {
 };
   
 const db = {
-    uri: process.env.MONGO_URI,
-    // options: {
-    //   useNewUrlParser: true,
-    //   useUnifiedTopology: true,
-    // },
+    uri: process.env.MONGO_URI
 };
   
 export default {
     db,
     server,
     jwtSecret: process.env.JWT_SECRET,
-    node_env: process.env.NODE_ENV,
 };

@@ -1,4 +1,4 @@
-import { createLogger, transports, format } from "winston";
+import { createLogger } from "winston";
 
 const logger = createLogger({});
 
