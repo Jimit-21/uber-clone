@@ -3,7 +3,7 @@
 ### Prerequisites
 1. Install node js in your system
 2. clone repository (https://github.com/Jimit-21/uber-clone)
-3. open uber-api in your ide (vs code etc)
+3. open uber-clone in your ide (vs code etc)
 4. npm i (in terminal);
 
 ### How to run
