@@ -1,0 +1,11 @@
+2022-04-12T09:31:38.731Z - [INFO   ] - server is running on 3000
+2022-04-12T09:31:43.619Z - [INFO   ] - connected to db
+2022-04-12T09:58:00.659Z - [INFO   ] - server is running on 3000
+2022-04-12T09:58:10.605Z - [INFO   ] - connected to db
+2022-04-12T10:13:09.316Z - [INFO   ] - inside create booking
+2022-04-12T10:13:22.229Z - [INFO   ] - inside create booking
+2022-04-12T10:13:26.154Z - [INFO   ] - inside get all bookings
+2022-04-12T10:30:57.407Z - [INFO   ] - server is running on 3000
+2022-04-12T10:30:59.675Z - [INFO   ] - connected to db
+2022-04-12T10:48:08.746Z - [INFO   ] - server is running on 3000
+2022-04-12T10:48:09.420Z - [INFO   ] - connected to db

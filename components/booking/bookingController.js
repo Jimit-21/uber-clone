@@ -3,6 +3,7 @@ import getDistanceFromLatLonInKm from "../../helpers/distance.js";
 import { create, findOne, deleteOne, find } from "../../helpers/dbQuery.js";
 import Cab from "../cab/cabModel.js";
 import Booking from "./bookingModel.js";
+import { createBookingService, deleteBookingService, getAllBookingsService, nearByCabService } from "./bookingService.js";
 
 export const createBooking = async(req, res, next) => {
     try {
@@ -19,23 +20,15 @@ export const createBooking = async(req, res, next) => {
         const lon2 = destinationLocation[1];
 
         const disInkm = getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2);
-        // console.log(disInkm);
-
-        // get exact value not decimal value used math.ceil
         const price = Math.ceil(15 * disInkm);
-        // console.log(price);
-        
-        // finding cabs around 10 miles
         const findCab = {
             booked: false,
             currentLocation: {
                 $geoWithin: { $centerSphere: [[lat1, lon1], 10 / 3963.2] }
             }
         };
-        console.log(findCab);
 
         const cab = await findOne(Cab, findCab);
-        console.log(cab);
 
         if (!cab) {
             return res.status(404).json({ message: "no cabs are available" })
@@ -45,30 +38,27 @@ export const createBooking = async(req, res, next) => {
             pickupAddress,
             destinationAddress,
             price,
-            cab: cab._id,
+            cab: cab.id,
             bookedBy: user.id
         };
 
-        // booking cab
-        const bookCab = await create(Booking, data);
+        const bookCab = await createBookingService(data);
         if (bookCab) {
             cab.booked = true,
             await cab.save()
             return res.status(201).json({ message: "booked", data: bookCab });
         }
     } catch (error) {
-        next(new Error(error));
+        logger.error(error);
+        next();
     }
 };
 
 export const deleteBooking = async(req, res, next) => {
     try {
         logger.info("inside delete booking");
-        userId = req.params._id;
-        console.log(userId);
 
-        const data = await deleteOne(Booking, userId);
-        console.log("asdfgh", data);
+        const data = await deleteBookingService(req.params.id);
 
         if (!data) {
             return res.status(401).json({ message: "booking is not valid" });
@@ -80,7 +70,8 @@ export const deleteBooking = async(req, res, next) => {
 
         res.status(201).json({ message: "booking canceled" });
     } catch (error) {
-        next(new Error(error));
+        logger.error(error);
+        next();
     }
 };
 
@@ -100,7 +91,7 @@ export const nearByCab = async(req, res, next) =>{
             }
         };
 
-        const cab = await find(Cab, findCab);
+        const cab = await nearByCabService(findCab);
 
         if (cab.length > 0) {
             return res.status(201).json({ data: cab });
@@ -120,7 +111,7 @@ export const getAllBookings = async(req, res, next) => {
             bookedBy: userId
         };
 
-        const bookingHistory = await find(Booking, data);
+        const bookingHistory = await getAllBookingsService(data);
         
         if (bookingHistory.length > 0) {
             return res.status(201).json({ data: bookingHistory });
