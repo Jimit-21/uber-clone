@@ -1,6 +1,5 @@
 import logger from "./config/logger.js";
 import config from "./config/config.js";
-import db from "./connections/dbConnection.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
@@ -20,8 +19,6 @@ app.get("/",(req,res)=>{
 });
 
 app.use("/api/v1", router);
-
-db();
 
 app.use(handleErrors);
 app.use((req, res, next) => {
