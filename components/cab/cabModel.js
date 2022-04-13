@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import db from "../../connections/dbConnection.js";
 
 const cabSchema = new mongoose.Schema({
     booked: {
@@ -25,6 +26,6 @@ const cabSchema = new mongoose.Schema({
 
 cabSchema.index({ location: "2d" });
 
-const Cab = mongoose.model("Cab", cabSchema);
+const Cab = db.model("Cab", cabSchema);
 
 export default Cab;
