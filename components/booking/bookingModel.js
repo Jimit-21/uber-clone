@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import db from "../../connections/dbConnection.js";
 
 const bookingSchema = new mongoose.Schema({
     pickupAddress: {
@@ -42,6 +43,6 @@ bookingSchema.pre(/^find/, function (next) {
     next();
 });
 
-const Booking = new mongoose.model("Booking", bookingSchema);
+const Booking = db.model("Booking", bookingSchema);
 
 export default Booking;
