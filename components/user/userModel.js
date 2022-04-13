@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
-// creating User schema
 const userSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -20,7 +19,6 @@ const userSchema = new mongoose.Schema({
     confirmPassword: {
         type: String,
         required: [true, "please confirm password"],
-        // validating confirm password with password
         validate: {
           validator: function (comppass) {
             return comppass === this.password;
@@ -30,7 +28,6 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-// hashing password using bcrypt before save
 userSchema.pre("save", async function (next) {
     if (this.isModified("password")) {
         const hashPass = await bcrypt.hash(this.password, 10);
@@ -41,7 +38,6 @@ userSchema.pre("save", async function (next) {
     next();
 });
 
-// compare password function
 userSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 };

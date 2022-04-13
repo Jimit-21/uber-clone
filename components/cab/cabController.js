@@ -1,8 +1,6 @@
 import logger from "../../config/logger.js";
-import { create, findOne } from "../../helpers/dbQuery.js";
-import Cab from "./cabModel.js";
+import { registerCabService } from "./cabService.js";
 
-// register cab
 export const registerCab = async (req, res, next) => {
     try {
         logger.info("inside the cab register");
@@ -11,14 +9,15 @@ export const registerCab = async (req, res, next) => {
             driver,
             currentLocation
         };
-        console.log(data);
-        const cab = await create(Cab, data);
-        console.log(cab);
+
+        const cab = await registerCabService(data);
+        
         if (!cab) {
             return res.status(404).json({ staus: "failed", message: "unable to register" });
         }
         return res.status(201).json({ staus: "successful", data: cab });
     } catch (error) {
-        next(new Error(error))
+        logger.error(error);
+        next();
     }
 };
