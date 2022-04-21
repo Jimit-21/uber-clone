@@ -1,16 +1,14 @@
 import dotenv from "dotenv";
 dotenv.config();
+  
+const config = { 
+    server : {
+        port: process.env.PORT,
+    },
+    db : {
+        uri: process.env.MONGO_URI
+    },
+    jwtSecret : process.env.JWT_SECRET
+ };
 
-const server = {
-    port: process.env.PORT,
-};
-  
-const db = {
-    uri: process.env.MONGO_URI
-};
-  
-export default {
-    db,
-    server,
-    jwtSecret: process.env.JWT_SECRET,
-};
+export default config;
